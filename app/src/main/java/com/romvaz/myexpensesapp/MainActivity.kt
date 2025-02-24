@@ -9,10 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.core.domain.routes.HomeRoute
 import com.core.ui.navigation.Navigator
 import com.core.ui.navigation.NavigatorHandler
 import com.core.ui.theme.MyExpensesAppTheme
-import com.romvaz.core.domain.routes.HomeRoute
 import com.romvaz.feature.home.homeGraph
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

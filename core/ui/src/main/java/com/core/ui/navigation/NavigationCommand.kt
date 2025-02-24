@@ -1,7 +1,7 @@
 package com.core.ui.navigation
 
 import androidx.navigation.NavOptions
-import com.romvaz.core.domain.routes.Route
+import com.core.domain.routes.Route
 
 sealed interface NavigationCommand {
 

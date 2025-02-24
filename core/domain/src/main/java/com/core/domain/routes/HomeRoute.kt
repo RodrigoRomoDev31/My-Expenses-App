@@ -1,4 +1,4 @@
-package com.romvaz.core.domain.routes
+package com.core.domain.routes
 
 sealed interface HomeRoute : Route {
 
@@ -13,7 +13,7 @@ sealed interface HomeRoute : Route {
     }
 
     // Main route for the Home module
-    data object MainRoute : HomeRoute {
-        override val route = "home/main"
+    data object GeneralRoute : HomeRoute {
+        override val route = "home/general"
     }
 }

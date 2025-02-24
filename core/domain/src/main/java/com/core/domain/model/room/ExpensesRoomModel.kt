@@ -7,5 +7,7 @@ import androidx.room.PrimaryKey
 data class ExpensesRoomModel(
     @PrimaryKey
     val id: String,
-    val title: String
+    val expenseType: String,
+    val expense: Double,
+    val date: String
 )

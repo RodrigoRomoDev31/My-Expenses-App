@@ -1,4 +1,4 @@
-package com.romvaz.core.domain.routes
+package com.core.domain.routes
 
 
 interface Route {

@@ -16,6 +16,6 @@ interface ExpensesDao {
     @Delete
     suspend fun deleteTest(games: ExpensesRoomModel)
 
-    @Query("SELECT * FROM expensesroommodel ORDER BY title ASC")
+    @Query("SELECT * FROM expensesroommodel ORDER BY id ASC")
     fun getTestSortedByTitle(): Flow<List<ExpensesRoomModel>>
 }
