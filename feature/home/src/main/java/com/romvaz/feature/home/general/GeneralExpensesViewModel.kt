@@ -30,4 +30,7 @@ class GeneralExpensesViewModel @Inject constructor(
 
     fun navigateToAdd() =
         navigator.navigate(NavigationCommand.NavigateTo(HomeRoute.AddExpenseRoute.route))
+
+    fun changeCurrentMonth(forward: Boolean) =
+        store.dispatch(GeneralExpensesScreenAction.OnChangeMonth(forward))
 }

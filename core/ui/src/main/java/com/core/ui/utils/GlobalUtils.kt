@@ -2,6 +2,7 @@ package com.core.ui.utils
 
 import androidx.compose.ui.graphics.Color
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -10,6 +11,12 @@ private const val DAY_FORMAT = "EEEE, dd MMMM yyyy, hh:mm a"
 
 fun getCurrentTimestamp(): Long {
     return System.currentTimeMillis()
+}
+
+fun getCurrentTimestampWithAddedMonth(): Long {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.MONTH, 1)
+    return calendar.timeInMillis
 }
 
 fun getExpenseMonth(timestamp: Long = System.currentTimeMillis()): String {

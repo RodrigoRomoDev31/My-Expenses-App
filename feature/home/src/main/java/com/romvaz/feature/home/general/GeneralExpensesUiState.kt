@@ -5,10 +5,8 @@ import com.core.domain.model.room.ExpensesRoomModel
 
 data class GeneralExpensesUiState (
     val expensesList: List<ExpensesRoomModel> = emptyList(),
-    val expensesByMonth: Map<String, List<ExpensesRoomModel>> = emptyMap(),
-    val expensesByMonthAndType: Map<String, Map<String, Double>> = emptyMap(),
-    val totalExpenses: Double = 0.0,
+    val expensesByMonth: List<Pair<String, List<ExpensesRoomModel>>> = emptyList(),
     val chartData: MutableList<PieChartData.Slice> = mutableListOf(),
-    val monthListSize: Int = 0,
-    val pieChartData: PieChartData? = null
+    val totalExpenses: Double = 0.0,
+    val index: Int = 0
 )

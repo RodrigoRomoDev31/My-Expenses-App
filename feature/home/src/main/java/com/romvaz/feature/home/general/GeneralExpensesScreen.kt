@@ -13,15 +13,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,8 +35,6 @@ import co.yml.charts.ui.piechart.charts.DonutPieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
 import com.core.domain.model.room.ExpensesRoomModel
-import com.core.ui.components.SnackBarTopComponent
-import com.core.ui.components.SnackBarTopStatus
 import com.core.ui.components.VerticalSpacer
 import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.h3
@@ -55,26 +53,29 @@ fun GeneralExpensesScreen(
     val state by viewModel.observe().collectAsStateWithLifecycle()
 
     Content(
-        expensesListState = state.expensesList,
-        expensesByMonthAndType = state.expensesByMonthAndType,
         expensesByMonth = state.expensesByMonth,
         chatDataState = state.chartData,
+        indexState = state.index,
         totalState = state.totalExpenses,
-        navigateToAdd = viewModel::navigateToAdd
+        navigateToAdd = viewModel::navigateToAdd,
+        changeMonth = { viewModel.changeCurrentMonth(it) }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Content(
-    expensesListState: List<ExpensesRoomModel>,
-    expensesByMonthAndType: Map<String, Map<String, Double>>,
-    expensesByMonth: Map<String, List<ExpensesRoomModel>>,
+    expensesByMonth: List<Pair<String, List<ExpensesRoomModel>>>,
     chatDataState: MutableList<PieChartData.Slice>,
+    indexState: Int,
     totalState: Double,
-    navigateToAdd: () -> Unit
+    navigateToAdd: () -> Unit,
+    changeMonth: (Boolean) -> Unit
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
+    val currentMonth = expensesByMonth.getOrNull(indexState)
+    val elementBack = indexState > 0
+    val elementForward = indexState < (expensesByMonth.size - 1)
+
 
     val donutChartConfig = PieChartConfig(
         strokeWidth = 60f,
@@ -93,16 +94,9 @@ private fun Content(
                 icon = painterResource(R.drawable.ic_logo),
                 iconTint = MaterialTheme.colorScheme.onSurface,
             )
-        },
-        snackbarHost = {
-            SnackBarTopComponent(
-                hostState = snackBarHostState,
-                snackBarTopStatus = SnackBarTopStatus.SUCCESS,
-                onClickAction = { snackBarHostState.currentSnackbarData?.dismiss() }
-            )
         }
     ) { paddingValues ->
-        if (expensesListState.isEmpty())
+        if (expensesByMonth.isEmpty())
             NoExpensesComponent(
                 modifier = Modifier.padding(paddingValues),
                 addNewExpense = navigateToAdd
@@ -120,12 +114,37 @@ private fun Content(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = expensesByMonthAndType.entries.first().key,
-                        modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.h3.copy(MaterialTheme.myExpensesAppColors.Primary100),
-                        textAlign = TextAlign.Center
-                    )
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null,
+                            tint = if (elementBack) MaterialTheme.myExpensesAppColors.Primary100
+                            else MaterialTheme.myExpensesAppColors.Gray30,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clickable(enabled = elementBack, onClick = { changeMonth(false) })
+                        )
+                        Text(
+                            text = currentMonth?.first ?: "",
+                            style = MaterialTheme.typography.h3.copy(MaterialTheme.myExpensesAppColors.Primary100),
+                            textAlign = TextAlign.Center
+                        )
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = null,
+                            tint = if (elementForward) MaterialTheme.myExpensesAppColors.Primary100
+                            else MaterialTheme.myExpensesAppColors.Gray30,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clickable(
+                                    enabled = elementForward,
+                                    onClick = { changeMonth(true) })
+                        )
+                    }
 
                     VerticalSpacer(Spacings.four)
 
@@ -178,13 +197,10 @@ private fun Content(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(Spacings.two)
                     ) {
-                        expensesByMonth.forEach { (_, expenses) ->
-                            items(expenses) { expense ->
-                                ExpenseComponent(expense)
-                            }
+                        items(currentMonth?.second ?: emptyList()) { expense ->
+                            ExpenseComponent(expense)
                         }
                     }
-
                 }
             }
 
