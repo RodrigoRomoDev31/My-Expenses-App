@@ -50,6 +50,7 @@ acompanist = "0.30.1"
 
 #Room
 room = "2.6.1"
+ycharts = "2.1.0"
 
 [libraries]
 # General
@@ -108,6 +109,7 @@ acompanist-permissions = { group = "com.google.accompanist", name = "accompanist
 #Room
 androidx_room = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx_room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+ycharts = { module = "co.yml:ycharts", version.ref = "ycharts" }
 
 [bundles]
 androidx-test = ["androidx-junit", "androidx-espresso-core"]

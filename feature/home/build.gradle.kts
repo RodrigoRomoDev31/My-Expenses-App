@@ -15,4 +15,5 @@ android {
 dependencies {
     implementation(libs.acompanist.permissions)
     implementation(libs.lottie.compose)
+    implementation(libs.ycharts)
 }

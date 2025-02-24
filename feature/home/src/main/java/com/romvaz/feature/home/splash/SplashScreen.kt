@@ -97,7 +97,7 @@ fun SplashScreen(
                     )
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_devtek_logo),
+                        painter = painterResource(id = R.drawable.ic_logo),
                         contentDescription = "logo",
                         modifier = Modifier.padding(vertical = Spacings.six),
                         contentScale = ContentScale.FillWidth

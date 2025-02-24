@@ -7,4 +7,5 @@
     <string name="ammount">Enter an amount</string>
     <string name="save_disclaimer">* You need to enter a valid amount.</string>
     <string name="expense_saved">Expense saved successfully.</string>
+    <string name="expenses_tittle">Expense breakdown</string>
 </resources>

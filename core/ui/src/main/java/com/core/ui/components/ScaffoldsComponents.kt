@@ -131,14 +131,14 @@ fun ExpensesAppTransparentHeader(
         CenterAlignedTopAppBar(
             title = {
                 Box(
-                    modifier = Modifier.fillMaxHeight(),
+                    modifier = Modifier.fillMaxHeight(.8f),
                     contentAlignment = Alignment.Center
                 ) {
                     icon?.let {
                         Icon(
                             painter = icon,
                             contentDescription = iconDescription,
-                            tint = iconTint
+                            tint = iconTint,
                         )
                     }
                 }
