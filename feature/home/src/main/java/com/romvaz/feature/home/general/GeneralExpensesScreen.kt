@@ -5,9 +5,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.core.domain.model.room.ExpensesRoomModel
 import com.core.ui.components.SnackBarTopComponent
 import com.core.ui.components.SnackBarTopStatus
 import com.romvaz.core.ui.components.ExpensesAppScaffold
@@ -16,13 +20,21 @@ import com.romvaz.feature.home.R
 import com.romvaz.feature.home.general.components.NoExpensesComponent
 
 @Composable
-fun GeneralExpensesScreen() {
-    Content()
+fun GeneralExpensesScreen(
+    viewModel: GeneralExpensesViewModel = hiltViewModel()
+) {
+    val state by viewModel.observe().collectAsStateWithLifecycle()
+
+    Content(
+        expensesListState = state.expensesList
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Content() {
+private fun Content(
+    expensesListState: List<ExpensesRoomModel>
+) {
     val snackBarHostState = remember { SnackbarHostState() }
 
     ExpensesAppScaffold(
@@ -40,7 +52,8 @@ private fun Content() {
             )
         }
     ) { paddingValues ->
-        NoExpensesComponent(modifier = Modifier.padding(paddingValues)) {
-        }
+        if (expensesListState.isEmpty())
+            NoExpensesComponent(modifier = Modifier.padding(paddingValues)) {
+            }
     }
 }
