@@ -41,6 +41,8 @@ import co.yml.charts.ui.piechart.charts.DonutPieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
 import com.core.domain.model.room.ExpensesRoomModel
+import com.core.ui.components.ExpensesAppScaffold
+import com.core.ui.components.ExpensesAppTransparentHeader
 import com.core.ui.components.SnackBarTopComponent
 import com.core.ui.components.SnackBarTopStatus
 import com.core.ui.components.SnackBarVisuals
@@ -51,8 +53,6 @@ import com.core.ui.theme.TypographyExtensions.h4
 import com.core.ui.theme.TypographyExtensions.h5
 import com.core.ui.theme.myExpensesAppColors
 import com.core.ui.utils.DELAY_TIME_10
-import com.romvaz.core.ui.components.ExpensesAppScaffold
-import com.romvaz.core.ui.components.ExpensesAppTransparentHeader
 import com.romvaz.feature.home.R
 import com.romvaz.feature.home.general.components.ExpenseComponent
 import com.romvaz.feature.home.general.components.NoExpensesComponent

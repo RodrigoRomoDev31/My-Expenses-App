@@ -1,4 +1,4 @@
-package com.romvaz.core.ui.components
+package com.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

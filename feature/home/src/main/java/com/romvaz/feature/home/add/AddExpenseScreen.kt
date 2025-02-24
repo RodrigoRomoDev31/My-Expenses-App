@@ -38,6 +38,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.core.ui.R
 import com.core.ui.components.ButtonComponent
 import com.core.ui.components.ButtonStyle
+import com.core.ui.components.ExpensesAppHeader
+import com.core.ui.components.ExpensesAppScaffold
 import com.core.ui.components.InputComponent
 import com.core.ui.components.SnackBarTopComponent
 import com.core.ui.components.SnackBarTopStatus
@@ -48,8 +50,6 @@ import com.core.ui.theme.TypographyExtensions.captionsBold
 import com.core.ui.theme.TypographyExtensions.h3
 import com.core.ui.utils.DELAY_TIME_100
 import com.core.ui.utils.ExpensesTypes
-import com.romvaz.core.ui.components.ExpensesAppHeader
-import com.romvaz.core.ui.components.ExpensesAppScaffold
 import com.romvaz.feature.home.add.components.ExpenseTypeChipComponent
 import kotlinx.coroutines.delay
 
