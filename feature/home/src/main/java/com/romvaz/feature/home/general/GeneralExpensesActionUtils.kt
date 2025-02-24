@@ -57,7 +57,7 @@ fun GeneralExpensesUiState.onChangeMonth(
         )
     }
 
-    val expensesByType = expensesByMonth[index].second.groupBy { it.expenseType }.toList()
+    val expensesByType = expensesByMonth[newIndex].second.groupBy { it.expenseType }.toList()
 
     return this.copy(
         index = newIndex,

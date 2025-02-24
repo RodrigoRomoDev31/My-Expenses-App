@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -39,13 +41,16 @@ import co.yml.charts.ui.piechart.charts.DonutPieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
 import com.core.domain.model.room.ExpensesRoomModel
+import com.core.ui.components.SnackBarTopComponent
+import com.core.ui.components.SnackBarTopStatus
+import com.core.ui.components.SnackBarVisuals
 import com.core.ui.components.VerticalSpacer
 import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.h3
 import com.core.ui.theme.TypographyExtensions.h4
 import com.core.ui.theme.TypographyExtensions.h5
 import com.core.ui.theme.myExpensesAppColors
-import com.core.ui.utils.DELAY_TIME_100
+import com.core.ui.utils.DELAY_TIME_10
 import com.romvaz.core.ui.components.ExpensesAppScaffold
 import com.romvaz.core.ui.components.ExpensesAppTransparentHeader
 import com.romvaz.feature.home.R
@@ -65,8 +70,10 @@ fun GeneralExpensesScreen(
         indexState = state.index,
         totalState = state.totalExpenses,
         expensesByTypeState = state.expensesByType,
+        counterState = state.counter,
         navigateToAdd = viewModel::navigateToAdd,
-        changeMonth = { viewModel.changeCurrentMonth(it) }
+        changeMonth = { viewModel.changeCurrentMonth(it) },
+        onDeleteExpense = { viewModel.deleteExpense(it) }
     )
 }
 
@@ -78,20 +85,34 @@ private fun Content(
     indexState: Int,
     totalState: Double,
     expensesByTypeState: List<Pair<String, List<ExpensesRoomModel>>>,
+    counterState: Int,
     navigateToAdd: () -> Unit,
-    changeMonth: (Boolean) -> Unit
+    changeMonth: (Boolean) -> Unit,
+    onDeleteExpense: (ExpensesRoomModel) -> Unit
 ) {
     val currentMonth = expensesByMonth.getOrNull(indexState)
     val elementBack = indexState > 0
     val elementForward = indexState < (expensesByMonth.size - 1)
     var timePassed by remember { mutableStateOf(false) }
+    val snackBarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     LaunchedEffect(currentMonth) {
         timePassed = false
         if (!currentMonth?.second.isNullOrEmpty()) {
-            delay(DELAY_TIME_100)
+            delay(DELAY_TIME_10)
             timePassed = true
         }
+    }
+
+    LaunchedEffect(counterState) {
+        if (counterState > 0)
+            snackBarHostState.showSnackbar(
+                SnackBarVisuals(
+                    message = context.getString(com.core.ui.R.string.expense_deleted),
+                    withDismissAction = true
+                )
+            )
     }
 
 
@@ -110,6 +131,13 @@ private fun Content(
             ExpensesAppTransparentHeader(
                 icon = painterResource(R.drawable.ic_logo),
                 iconTint = MaterialTheme.colorScheme.onSurface,
+            )
+        },
+        snackbarHost = {
+            SnackBarTopComponent(
+                hostState = snackBarHostState,
+                snackBarTopStatus = SnackBarTopStatus.SUCCESS,
+                onClickAction = { snackBarHostState.currentSnackbarData?.dismiss() }
             )
         }
     ) { paddingValues ->
@@ -224,7 +252,9 @@ private fun Content(
                             }
 
                             items(expenses.second) { expense ->
-                                ExpenseComponent(expense)
+                                ExpenseComponent(expense) {
+                                    onDeleteExpense(it)
+                                }
                             }
 
                             item {

@@ -13,6 +13,8 @@ class GeneralExpensesScreenReducer : Reducer<GeneralExpensesUiState, GeneralExpe
         when (action) {
             is GeneralExpensesScreenAction.OnGetUserExpenses -> state.onGetUserExpenses(action)
             is GeneralExpensesScreenAction.OnChangeMonth -> state.onChangeMonth(action)
+            is GeneralExpensesScreenAction.OnDeleteExpense -> state.copy(expensesRoomModel = action.expense)
+            is GeneralExpensesScreenAction.OnExpenseDeleted -> state.copy(counter = state.counter + 1)
         }
 }
 
@@ -26,4 +28,10 @@ sealed interface GeneralExpensesScreenAction {
     data class OnChangeMonth(
         val forward: Boolean
     ) : GeneralExpensesScreenAction
+
+    data class OnDeleteExpense(
+        val expense: ExpensesRoomModel
+    ) : GeneralExpensesScreenAction
+
+    data object OnExpenseDeleted : GeneralExpensesScreenAction
 }

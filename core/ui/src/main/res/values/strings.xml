@@ -4,8 +4,9 @@
     <string name="no_expenses_disclaimer">Start adding your expenses to see a summary of them.</string>
     <string name="btn_add_expenses">Add expense</string>
     <string name="add_expenses">Add Expense</string>
-    <string name="ammount">Enter an amount</string>
+    <string name="amount">Enter an amount</string>
     <string name="save_disclaimer">* You need to enter a valid amount.</string>
     <string name="expense_saved">Expense saved successfully.</string>
     <string name="expenses_tittle">Expense breakdown</string>
+    <string name="expense_deleted">Expense deleted successfully.</string>
 </resources>

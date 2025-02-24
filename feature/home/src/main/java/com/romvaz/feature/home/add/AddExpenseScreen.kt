@@ -151,7 +151,7 @@ private fun Content(
             InputComponent(
                 value = amountState,
                 onValueChange = { onAmountChange(it) },
-                placeholder = stringResource(R.string.ammount)
+                placeholder = stringResource(R.string.amount)
             )
 
             VerticalSpacer(Spacings.four)

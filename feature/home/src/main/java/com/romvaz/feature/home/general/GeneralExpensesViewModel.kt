@@ -2,10 +2,12 @@ package com.romvaz.feature.home.general
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.core.domain.model.room.ExpensesRoomModel
 import com.core.domain.routes.HomeRoute
 import com.core.store.Store
 import com.core.ui.navigation.NavigationCommand
 import com.core.ui.navigation.Navigator
+import com.romvaz.feature.home.general.middlewares.DeleteExpenseMiddleware
 import com.romvaz.feature.home.general.middlewares.GetUserExpensesMiddleware
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GeneralExpensesViewModel @Inject constructor(
     private val navigator: Navigator,
-    getUserExpensesMiddleware: GetUserExpensesMiddleware
+    getUserExpensesMiddleware: GetUserExpensesMiddleware,
+    deleteExpenseMiddleware: DeleteExpenseMiddleware
 ): ViewModel(){
 
     private val store = Store(
@@ -22,7 +25,8 @@ class GeneralExpensesViewModel @Inject constructor(
         GeneralExpensesScreenReducer(),
         viewModelScope,
         listOf(
-            getUserExpensesMiddleware
+            getUserExpensesMiddleware,
+            deleteExpenseMiddleware
         )
     )
 
@@ -33,4 +37,7 @@ class GeneralExpensesViewModel @Inject constructor(
 
     fun changeCurrentMonth(forward: Boolean) =
         store.dispatch(GeneralExpensesScreenAction.OnChangeMonth(forward))
+
+    fun deleteExpense(expensesRoomModel: ExpensesRoomModel) =
+        store.dispatch(GeneralExpensesScreenAction.OnDeleteExpense(expensesRoomModel))
 }

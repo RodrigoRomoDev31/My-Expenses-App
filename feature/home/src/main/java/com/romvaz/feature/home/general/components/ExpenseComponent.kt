@@ -1,7 +1,9 @@
 package com.romvaz.feature.home.general.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,9 +26,11 @@ import com.core.ui.theme.TypographyExtensions.labels
 import com.core.ui.utils.getColorForExpenseType
 import com.core.ui.utils.getExpenseDate
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExpenseComponent(
-    expense: ExpensesRoomModel
+    expense: ExpensesRoomModel,
+    onDelete: (ExpensesRoomModel) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -40,6 +44,10 @@ fun ExpenseComponent(
                 width = 2.dp,
                 color = getColorForExpenseType(expense.expenseType),
                 shape = RoundedCornerShape(Spacings.four)
+            )
+            .combinedClickable(
+                onClick = {},
+                onLongClick = { onDelete(expense) }
             )
     ) {
         Column(modifier = Modifier

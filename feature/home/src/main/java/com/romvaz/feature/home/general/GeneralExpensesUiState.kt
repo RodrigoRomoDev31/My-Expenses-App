@@ -9,5 +9,7 @@ data class GeneralExpensesUiState (
     val chartData: MutableList<PieChartData.Slice> = mutableListOf(),
     val expensesByType: List<Pair<String, List<ExpensesRoomModel>>> = emptyList(),
     val totalExpenses: Double = 0.0,
-    val index: Int = 0
+    val index: Int = 0,
+    val expensesRoomModel: ExpensesRoomModel? = null,
+    val counter: Int = 0
 )
