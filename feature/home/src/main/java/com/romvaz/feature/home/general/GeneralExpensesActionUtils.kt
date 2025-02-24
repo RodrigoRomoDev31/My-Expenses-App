@@ -25,11 +25,14 @@ fun GeneralExpensesUiState.onGetUserExpenses(
         )
     }
 
+    val expensesByType = expensesByMonth[index].second.groupBy { it.expenseType }.toList()
+
     return this.copy(
         expensesList = action.expenses,
         expensesByMonth = expensesByMonth,
         totalExpenses = total,
-        chartData = chartData
+        chartData = chartData,
+        expensesByType = expensesByType
     )
 }
 
@@ -54,9 +57,12 @@ fun GeneralExpensesUiState.onChangeMonth(
         )
     }
 
+    val expensesByType = expensesByMonth[index].second.groupBy { it.expenseType }.toList()
+
     return this.copy(
         index = newIndex,
         totalExpenses = newTotal,
-        chartData = newChartData
+        chartData = newChartData,
+        expensesByType = expensesByType
     )
 }

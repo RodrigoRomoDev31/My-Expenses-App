@@ -43,6 +43,7 @@ import com.core.ui.components.VerticalSpacer
 import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.h3
 import com.core.ui.theme.TypographyExtensions.h4
+import com.core.ui.theme.TypographyExtensions.h5
 import com.core.ui.theme.myExpensesAppColors
 import com.core.ui.utils.DELAY_TIME_100
 import com.romvaz.core.ui.components.ExpensesAppScaffold
@@ -63,6 +64,7 @@ fun GeneralExpensesScreen(
         chatDataState = state.chartData,
         indexState = state.index,
         totalState = state.totalExpenses,
+        expensesByTypeState = state.expensesByType,
         navigateToAdd = viewModel::navigateToAdd,
         changeMonth = { viewModel.changeCurrentMonth(it) }
     )
@@ -75,6 +77,7 @@ private fun Content(
     chatDataState: MutableList<PieChartData.Slice>,
     indexState: Int,
     totalState: Double,
+    expensesByTypeState: List<Pair<String, List<ExpensesRoomModel>>>,
     navigateToAdd: () -> Unit,
     changeMonth: (Boolean) -> Unit
 ) {
@@ -205,15 +208,31 @@ private fun Content(
                         )
                     }
 
-                    VerticalSpacer(Spacings.two)
+                    VerticalSpacer(Spacings.four)
 
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(Spacings.two)
                     ) {
-                        items(currentMonth?.second ?: emptyList()) { expense ->
-                            ExpenseComponent(expense)
+                        expensesByTypeState.forEach { expenses ->
+                            item {
+                                Text(
+                                    text = expenses.first,
+                                    style = MaterialTheme.typography.h5.copy(MaterialTheme.myExpensesAppColors.Primary100),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+                            items(expenses.second) { expense ->
+                                ExpenseComponent(expense)
+                            }
+
+                            item {
+                                VerticalSpacer(Spacings.three)
+                            }
                         }
+
+
                     }
                 }
             }
