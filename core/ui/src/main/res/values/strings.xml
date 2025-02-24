@@ -5,4 +5,6 @@
     <string name="btn_add_expenses">Add expense</string>
     <string name="add_expenses">Add Expense</string>
     <string name="ammount">Enter an amount</string>
+    <string name="save_disclaimer">* You need to enter a valid amount.</string>
+    <string name="expense_saved">Expense saved successfully.</string>
 </resources>

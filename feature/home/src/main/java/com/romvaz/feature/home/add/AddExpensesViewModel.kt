@@ -3,6 +3,7 @@ package com.romvaz.feature.home.add
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.store.Store
+import com.core.ui.navigation.NavigationCommand
 import com.core.ui.navigation.Navigator
 import com.romvaz.feature.home.add.middlewares.AddExpenseMiddleware
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,4 +32,10 @@ class AddExpensesViewModel @Inject constructor(
 
     fun updateChipsState(type: String) =
         store.dispatch(AddExpensesScreenAction.OnChipSelected(type))
+
+    fun saveExpense() =
+        store.dispatch(AddExpensesScreenAction.OnSaveExpense)
+
+    fun navigateBack() =
+        navigator.navigate(NavigationCommand.PopBackstack)
 }

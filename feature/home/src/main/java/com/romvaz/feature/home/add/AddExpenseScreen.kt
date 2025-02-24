@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,19 +14,37 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.core.ui.R
+import com.core.ui.components.ButtonComponent
+import com.core.ui.components.ButtonStyle
 import com.core.ui.components.InputComponent
+import com.core.ui.components.SnackBarTopComponent
+import com.core.ui.components.SnackBarTopStatus
+import com.core.ui.components.SnackBarVisuals
 import com.core.ui.components.VerticalSpacer
 import com.core.ui.theme.Spacings
+import com.core.ui.theme.TypographyExtensions.captionsBold
 import com.core.ui.theme.TypographyExtensions.h3
 import com.core.ui.utils.ExpensesTypes
 import com.romvaz.core.ui.components.ExpensesAppHeader
@@ -46,8 +65,12 @@ fun AddExpenseScreen(
         homeLoanChipState = state.homeLoanChip,
         personalLoanChipState = state.personalLoanChip,
         amountState = state.amount,
+        disclaimerShowedState = state.disclaimerShowed,
+        counterState = state.counter,
         onAmountChange = { viewModel.updateAmount(it) },
-        onChipSelected = { viewModel.updateChipsState(it) }
+        onChipSelected = { viewModel.updateChipsState(it) },
+        saveExpense = viewModel::saveExpense,
+        navigateBack = viewModel::navigateBack
     )
 }
 
@@ -61,9 +84,27 @@ private fun Content(
     homeLoanChipState: Boolean,
     personalLoanChipState: Boolean,
     amountState: String,
+    disclaimerShowedState: Boolean,
+    counterState: Int,
     onAmountChange: (String) -> Unit,
-    onChipSelected: (String) -> Unit
+    onChipSelected: (String) -> Unit,
+    saveExpense: () -> Unit,
+    navigateBack: () -> Unit
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.ic_add_animation))
+
+    LaunchedEffect(key1 = counterState) {
+        if (counterState > 0)
+            snackBarHostState.showSnackbar(
+                SnackBarVisuals(
+                    message = context.getString(R.string.expense_saved),
+                    withDismissAction = true
+                )
+            )
+    }
+
     ExpensesAppScaffold(
         header = {
             ExpensesAppHeader(
@@ -75,6 +116,7 @@ private fun Content(
                 },
                 primaryAction = {
                     IconButton(onClick = {
+                        navigateBack()
                     }) {
                         Icon(
                             modifier = Modifier.size(30.dp),
@@ -85,12 +127,22 @@ private fun Content(
                     }
                 }
             )
+        },
+        snackbarHost = {
+            SnackBarTopComponent(
+                hostState = snackBarHostState,
+                snackBarTopStatus = SnackBarTopStatus.SUCCESS,
+                onClickAction = { snackBarHostState.currentSnackbarData?.dismiss() }
+            )
         }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = paddingValues.calculateTopPadding()),
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding()
+                ),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -106,7 +158,8 @@ private fun Content(
 
             LazyRow(
                 contentPadding = PaddingValues(horizontal = Spacings.six),
-                horizontalArrangement = Arrangement.spacedBy(Spacings.three)
+                horizontalArrangement = Arrangement.spacedBy(Spacings.three),
+                modifier = Modifier.weight(1f)
             ) {
                 item {
                     ExpenseTypeChipComponent(
@@ -151,6 +204,43 @@ private fun Content(
                     )
                 }
             }
+
+            LottieAnimation(
+                composition = composition,
+                modifier = Modifier
+                    .size(300.dp)
+                    .scale(1f),
+                isPlaying = true,
+                iterations = LottieConstants.IterateForever,
+                alignment = Alignment.BottomCenter,
+                contentScale = ContentScale.Fit
+            )
+
+            if (disclaimerShowedState)
+                Text(
+                    text = stringResource(R.string.save_disclaimer),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacings.six),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.captionsBold.copy(Color.Red)
+                )
+
+            ButtonComponent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Spacings.six, vertical = Spacings.two),
+                onClick = {
+                    saveExpense()
+                },
+                text = {
+                    Text(
+                        text = stringResource(id = R.string.btn_add_expenses)
+                    )
+                },
+                style = ButtonStyle.Primary,
+                enabled = !disclaimerShowedState
+            )
         }
     }
 }

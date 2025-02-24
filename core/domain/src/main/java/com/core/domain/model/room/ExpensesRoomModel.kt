@@ -9,5 +9,5 @@ data class ExpensesRoomModel(
     val id: Int = 0,
     val expenseType: String,
     val expense: String,
-    val date: String
+    val date: Long
 )

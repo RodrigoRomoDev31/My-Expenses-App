@@ -2,6 +2,7 @@ package com.romvaz.feature.home.add.middlewares
 
 import com.core.domain.model.room.ExpensesRoomModel
 import com.core.store.ActionSideEffect
+import com.core.ui.utils.getCurrentTimestamp
 import com.romvaz.feature.home.add.AddExpensesScreenAction
 import com.romvaz.feature.home.add.AddExpensesUiState
 import com.romvaz.room.databases.expenses.ExpensesDao
@@ -26,12 +27,12 @@ class AddExpenseMiddleware @Inject constructor(
                     ExpensesRoomModel(
                         expenseType = currentState().type,
                         expense = currentState().amount,
-                        date = ""
+                        date = getCurrentTimestamp()
                     )
                 )
             }
             .map {
-                AddExpensesScreenAction.OnNothing
+                AddExpensesScreenAction.OnSaved
             }
 }
 
