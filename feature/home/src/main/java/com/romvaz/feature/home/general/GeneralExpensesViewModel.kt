@@ -2,7 +2,9 @@ package com.romvaz.feature.home.general
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.core.domain.routes.HomeRoute
 import com.core.store.Store
+import com.core.ui.navigation.NavigationCommand
 import com.core.ui.navigation.Navigator
 import com.romvaz.feature.home.general.middlewares.GetUserExpensesMiddleware
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,4 +27,7 @@ class GeneralExpensesViewModel @Inject constructor(
     )
 
     fun observe(): StateFlow<GeneralExpensesUiState> = store.observe()
+
+    fun navigateToAdd() =
+        navigator.navigate(NavigationCommand.NavigateTo(HomeRoute.AddExpenseRoute.route))
 }

@@ -3,4 +3,6 @@
     <string name="no_expenses_tittle">It looks like you haven\'t added any expenses.</string>
     <string name="no_expenses_disclaimer">Start adding your expenses to see a summary of them.</string>
     <string name="btn_add_expenses">Add expense</string>
+    <string name="add_expenses">Add Expense</string>
+    <string name="ammount">Enter an amount</string>
 </resources>

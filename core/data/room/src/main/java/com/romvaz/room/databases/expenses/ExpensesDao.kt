@@ -1,4 +1,4 @@
-package com.romvaz.room.databases.test
+package com.romvaz.room.databases.expenses
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class ExpensesRoomModel(
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val expenseType: String,
-    val expense: Double,
+    val expense: String,
     val date: String
 )

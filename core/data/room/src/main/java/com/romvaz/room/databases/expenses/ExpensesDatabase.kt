@@ -1,4 +1,4 @@
-package com.romvaz.room.databases.test
+package com.romvaz.room.databases.expenses
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

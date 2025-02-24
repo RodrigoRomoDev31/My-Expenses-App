@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.core.domain.routes.HomeRoute
+import com.romvaz.feature.home.add.AddExpenseScreen
 import com.romvaz.feature.home.general.GeneralExpensesScreen
 import com.romvaz.feature.home.splash.SplashScreen
 
@@ -23,6 +24,12 @@ fun NavGraphBuilder.homeGraph() {
             HomeRoute.GeneralRoute.route
         ){
             GeneralExpensesScreen()
+        }
+
+        composable(
+            HomeRoute.AddExpenseRoute.route
+        ) {
+            AddExpenseScreen()
         }
     }
 }

@@ -16,4 +16,8 @@ sealed interface HomeRoute : Route {
     data object GeneralRoute : HomeRoute {
         override val route = "home/general"
     }
+
+    data object AddExpenseRoute : HomeRoute {
+        override val route = "home/add"
+    }
 }

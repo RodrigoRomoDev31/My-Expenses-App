@@ -2,8 +2,8 @@ package com.romvaz.room
 
 import android.content.Context
 import androidx.room.Room
-import com.romvaz.room.databases.test.ExpensesDao
-import com.romvaz.room.databases.test.ExpensesDatabase
+import com.romvaz.room.databases.expenses.ExpensesDao
+import com.romvaz.room.databases.expenses.ExpensesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

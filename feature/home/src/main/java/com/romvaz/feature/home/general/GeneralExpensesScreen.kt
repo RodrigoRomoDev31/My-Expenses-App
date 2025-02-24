@@ -26,14 +26,16 @@ fun GeneralExpensesScreen(
     val state by viewModel.observe().collectAsStateWithLifecycle()
 
     Content(
-        expensesListState = state.expensesList
+        expensesListState = state.expensesList,
+        navigateToAdd = viewModel::navigateToAdd
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Content(
-    expensesListState: List<ExpensesRoomModel>
+    expensesListState: List<ExpensesRoomModel>,
+    navigateToAdd: () -> Unit
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -53,7 +55,10 @@ private fun Content(
         }
     ) { paddingValues ->
         if (expensesListState.isEmpty())
-            NoExpensesComponent(modifier = Modifier.padding(paddingValues)) {
-            }
+            NoExpensesComponent(
+                modifier = Modifier.padding(paddingValues),
+                addNewExpense = navigateToAdd
+            )
+
     }
 }
