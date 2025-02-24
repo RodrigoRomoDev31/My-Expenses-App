@@ -36,7 +36,12 @@ fun GeneralExpensesUiState.onGetUserExpenses(
             expensesByType = expensesByType
         )
     } else
-        return this
+        return this.copy(
+            expensesList = emptyList(),
+            expensesByMonth = emptyList(),
+            chartData = mutableListOf(),
+            expensesByType = emptyList()
+        )
 }
 
 fun GeneralExpensesUiState.onChangeMonth(

@@ -14,7 +14,12 @@ class GeneralExpensesScreenReducer : Reducer<GeneralExpensesUiState, GeneralExpe
             is GeneralExpensesScreenAction.OnGetUserExpenses -> state.onGetUserExpenses(action)
             is GeneralExpensesScreenAction.OnChangeMonth -> state.onChangeMonth(action)
             is GeneralExpensesScreenAction.OnDeleteExpense -> state.copy(expensesRoomModel = action.expense)
-            is GeneralExpensesScreenAction.OnExpenseDeleted -> state.copy(counter = state.counter + 1)
+            is GeneralExpensesScreenAction.OnExpenseDeleted -> state.copy(
+                counter = state.counter + 1,
+                index = if (state.index > (state.expensesByType.size - 1)) state.index - 1 else state.index
+            )
+
+            is GeneralExpensesScreenAction.OnResetCounter -> state.copy(counter = 0)
         }
 }
 
@@ -34,4 +39,6 @@ sealed interface GeneralExpensesScreenAction {
     ) : GeneralExpensesScreenAction
 
     data object OnExpenseDeleted : GeneralExpensesScreenAction
+
+    data object OnResetCounter : GeneralExpensesScreenAction
 }

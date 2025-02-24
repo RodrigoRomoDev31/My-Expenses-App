@@ -32,8 +32,10 @@ class GeneralExpensesViewModel @Inject constructor(
 
     fun observe(): StateFlow<GeneralExpensesUiState> = store.observe()
 
-    fun navigateToAdd() =
+    fun navigateToAdd() {
+        store.dispatch(GeneralExpensesScreenAction.OnResetCounter)
         navigator.navigate(NavigationCommand.NavigateTo(HomeRoute.AddExpenseRoute.createRoute(0)))
+    }
 
     fun changeCurrentMonth(forward: Boolean) =
         store.dispatch(GeneralExpensesScreenAction.OnChangeMonth(forward))
@@ -41,6 +43,8 @@ class GeneralExpensesViewModel @Inject constructor(
     fun deleteExpense(expensesRoomModel: ExpensesRoomModel) =
         store.dispatch(GeneralExpensesScreenAction.OnDeleteExpense(expensesRoomModel))
 
-    fun navigateToEditExpense(id: Int) =
+    fun navigateToEditExpense(id: Int) {
+        store.dispatch(GeneralExpensesScreenAction.OnResetCounter)
         navigator.navigate(NavigationCommand.NavigateTo(HomeRoute.AddExpenseRoute.createRoute(id)))
+    }
 }
