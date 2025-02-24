@@ -46,10 +46,12 @@ import com.core.ui.components.VerticalSpacer
 import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.captionsBold
 import com.core.ui.theme.TypographyExtensions.h3
+import com.core.ui.utils.DELAY_TIME_100
 import com.core.ui.utils.ExpensesTypes
 import com.romvaz.core.ui.components.ExpensesAppHeader
 import com.romvaz.core.ui.components.ExpensesAppScaffold
 import com.romvaz.feature.home.add.components.ExpenseTypeChipComponent
+import kotlinx.coroutines.delay
 
 @Composable
 fun AddExpenseScreen(
@@ -67,6 +69,7 @@ fun AddExpenseScreen(
         amountState = state.amount,
         disclaimerShowedState = state.disclaimerShowed,
         counterState = state.counter,
+        id = state.id,
         onAmountChange = { viewModel.updateAmount(it) },
         onChipSelected = { viewModel.updateChipsState(it) },
         saveExpense = viewModel::saveExpense,
@@ -86,6 +89,7 @@ private fun Content(
     amountState: String,
     disclaimerShowedState: Boolean,
     counterState: Int,
+    id: Int,
     onAmountChange: (String) -> Unit,
     onChipSelected: (String) -> Unit,
     saveExpense: () -> Unit,
@@ -96,13 +100,17 @@ private fun Content(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.ic_add_animation))
 
     LaunchedEffect(key1 = counterState) {
-        if (counterState > 0)
+        val message = if (id == 0) R.string.expense_saved else R.string.expense_update
+        if (counterState > 0) {
             snackBarHostState.showSnackbar(
                 SnackBarVisuals(
-                    message = context.getString(R.string.expense_saved),
+                    message = context.getString(message),
                     withDismissAction = true
                 )
             )
+            delay(DELAY_TIME_100)
+            navigateBack()
+        }
     }
 
     ExpensesAppScaffold(

@@ -7,33 +7,36 @@ import com.core.ui.utils.getExpenseMonth
 fun GeneralExpensesUiState.onGetUserExpenses(
     action: GeneralExpensesScreenAction.OnGetUserExpenses
 ): GeneralExpensesUiState {
-    val expensesByMonth = action.expenses.groupBy { getExpenseMonth(it.date) }.toList()
-    var total = 0.0
-    val chartData = mutableListOf<PieChartData.Slice>()
+    if (action.expenses.isNotEmpty()) {
+        val expensesByMonth = action.expenses.groupBy { getExpenseMonth(it.date) }.toList()
+        var total = 0.0
+        val chartData = mutableListOf<PieChartData.Slice>()
 
-    expensesByMonth[index].second.forEach { expense ->
-        total += expense.expense.toDouble()
-    }
+        expensesByMonth[index].second.forEach { expense ->
+            total += expense.expense.toDouble()
+        }
 
-    expensesByMonth[index].second.forEach { expenseModel ->
-        chartData.add(
-            PieChartData.Slice(
-                expenseModel.expenseType,
-                ((expenseModel.expense.toDouble() / total) * 100).toFloat(),
-                getColorForExpenseType(expenseModel.expenseType)
+        expensesByMonth[index].second.forEach { expenseModel ->
+            chartData.add(
+                PieChartData.Slice(
+                    expenseModel.expenseType,
+                    ((expenseModel.expense.toDouble() / total) * 100).toFloat(),
+                    getColorForExpenseType(expenseModel.expenseType)
+                )
             )
+        }
+
+        val expensesByType = expensesByMonth[index].second.groupBy { it.expenseType }.toList()
+
+        return this.copy(
+            expensesList = action.expenses,
+            expensesByMonth = expensesByMonth,
+            totalExpenses = total,
+            chartData = chartData,
+            expensesByType = expensesByType
         )
-    }
-
-    val expensesByType = expensesByMonth[index].second.groupBy { it.expenseType }.toList()
-
-    return this.copy(
-        expensesList = action.expenses,
-        expensesByMonth = expensesByMonth,
-        totalExpenses = total,
-        chartData = chartData,
-        expensesByType = expensesByType
-    )
+    } else
+        return this
 }
 
 fun GeneralExpensesUiState.onChangeMonth(

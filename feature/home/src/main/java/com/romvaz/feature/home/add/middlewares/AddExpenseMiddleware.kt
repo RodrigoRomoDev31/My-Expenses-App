@@ -24,11 +24,19 @@ class AddExpenseMiddleware @Inject constructor(
             .filter { it is AddExpensesScreenAction.OnSaveExpense }
             .map {
                 expensesDao.upsertTest(
-                    ExpensesRoomModel(
-                        expenseType = currentState().type,
-                        expense = currentState().amount,
-                        date = getCurrentTimestampWithAddedMonth()
-                    )
+                    if (currentState().id == 0)
+                        ExpensesRoomModel(
+                            expenseType = currentState().type,
+                            expense = currentState().amount,
+                            date = getCurrentTimestampWithAddedMonth()
+                        )
+                    else
+                        ExpensesRoomModel(
+                            id = currentState().id,
+                            expenseType = currentState().type,
+                            expense = currentState().amount,
+                            date = currentState().time
+                        )
                 )
             }
             .map {

@@ -6,7 +6,7 @@ import com.core.domain.model.room.ExpensesRoomModel
 
 @Database(
     entities = [ExpensesRoomModel::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 

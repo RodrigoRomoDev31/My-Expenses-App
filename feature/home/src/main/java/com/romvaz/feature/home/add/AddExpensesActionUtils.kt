@@ -53,6 +53,30 @@ fun AddExpensesUiState.onExpenseSaved(): AddExpensesUiState {
     )
 }
 
+fun AddExpensesUiState.onExpenseFetch(
+    action: AddExpensesScreenAction.OnExpenseFetch
+): AddExpensesUiState {
+    var newState = updateChipFlags(this)
+    newState = when (action.expensesRoomModel.expenseType) {
+        ExpensesTypes.Entertainment.type -> newState.copy(entertainmentChip = true)
+        ExpensesTypes.Food.type -> newState.copy(foodChip = true)
+        ExpensesTypes.StreamingServices.type -> newState.copy(streamingChip = true)
+        ExpensesTypes.Stationary.type -> newState.copy(stationaryChip = true)
+        ExpensesTypes.HomeLoan.type -> newState.copy(homeLoanChip = true)
+        ExpensesTypes.PersonalLoan.type -> newState.copy(personalLoanChip = true)
+        else -> newState
+    }
+
+    newState = newState.copy(
+        amount = action.expensesRoomModel.expense,
+        time = action.expensesRoomModel.date,
+        type = action.expensesRoomModel.expenseType,
+        disclaimerShowed = false
+    )
+
+    return newState
+}
+
 private fun updateChipFlags(
     state: AddExpensesUiState,
     savedFlow: Boolean = false

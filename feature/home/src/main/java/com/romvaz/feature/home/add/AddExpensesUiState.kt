@@ -1,6 +1,7 @@
 package com.romvaz.feature.home.add
 
 data class AddExpensesUiState(
+    val id: Int,
     val entertainmentChip: Boolean = true,
     val foodChip: Boolean = false,
     val streamingChip: Boolean = false,
@@ -10,5 +11,6 @@ data class AddExpensesUiState(
     val disclaimerShowed: Boolean = true,
     val amount: String = "",
     val counter: Int = 0,
-    val type: String = ""
+    val type: String = "",
+    val time: Long = 0L
 )

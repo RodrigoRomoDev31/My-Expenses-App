@@ -9,4 +9,5 @@
     <string name="expense_saved">Expense saved successfully.</string>
     <string name="expenses_tittle">Expense breakdown</string>
     <string name="expense_deleted">Expense deleted successfully.</string>
+    <string name="expense_update">Expense updated.</string>
 </resources>

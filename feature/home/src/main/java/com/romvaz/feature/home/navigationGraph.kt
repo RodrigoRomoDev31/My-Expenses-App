@@ -1,7 +1,9 @@
 package com.romvaz.feature.home
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.core.domain.routes.HomeRoute
 import com.romvaz.feature.home.add.AddExpenseScreen
@@ -27,7 +29,13 @@ fun NavGraphBuilder.homeGraph() {
         }
 
         composable(
-            HomeRoute.AddExpenseRoute.route
+            route = HomeRoute.AddExpenseRoute.route,
+            arguments = listOf(
+                navArgument(HomeRoute.AddExpenseRoute.ARG_ID) {
+                    type = NavType.IntType
+                    defaultValue = 0
+                }
+            )
         ) {
             AddExpenseScreen()
         }

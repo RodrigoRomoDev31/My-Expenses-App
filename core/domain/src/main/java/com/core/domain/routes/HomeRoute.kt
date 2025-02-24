@@ -18,6 +18,9 @@ sealed interface HomeRoute : Route {
     }
 
     data object AddExpenseRoute : HomeRoute {
-        override val route = "home/add"
+        const val ARG_ID = "expense_id"
+        override val route = "home/add/{$ARG_ID}"
+
+        fun createRoute(expenseId: Int) = "home/add/$expenseId"
     }
 }

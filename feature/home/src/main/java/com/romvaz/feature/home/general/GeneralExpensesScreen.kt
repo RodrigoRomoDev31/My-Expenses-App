@@ -73,7 +73,8 @@ fun GeneralExpensesScreen(
         counterState = state.counter,
         navigateToAdd = viewModel::navigateToAdd,
         changeMonth = { viewModel.changeCurrentMonth(it) },
-        onDeleteExpense = { viewModel.deleteExpense(it) }
+        onDeleteExpense = { viewModel.deleteExpense(it) },
+        navigateToEdit = { viewModel.navigateToEditExpense(it) }
     )
 }
 
@@ -88,7 +89,8 @@ private fun Content(
     counterState: Int,
     navigateToAdd: () -> Unit,
     changeMonth: (Boolean) -> Unit,
-    onDeleteExpense: (ExpensesRoomModel) -> Unit
+    onDeleteExpense: (ExpensesRoomModel) -> Unit,
+    navigateToEdit: (Int) -> Unit
 ) {
     val currentMonth = expensesByMonth.getOrNull(indexState)
     val elementBack = indexState > 0
@@ -252,9 +254,11 @@ private fun Content(
                             }
 
                             items(expenses.second) { expense ->
-                                ExpenseComponent(expense) {
-                                    onDeleteExpense(it)
-                                }
+                                ExpenseComponent(
+                                    expense = expense,
+                                    navigateToEdit = { navigateToEdit(it) },
+                                    onDelete = { onDeleteExpense(it) }
+                                )
                             }
 
                             item {

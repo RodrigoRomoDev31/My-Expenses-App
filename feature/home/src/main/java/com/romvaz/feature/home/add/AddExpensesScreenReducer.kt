@@ -1,5 +1,6 @@
 package com.romvaz.feature.home.add
 
+import com.core.domain.model.room.ExpensesRoomModel
 import com.core.store.Reducer
 
 
@@ -14,6 +15,8 @@ class AddExpensesScreenReducer : Reducer<AddExpensesUiState, AddExpensesScreenAc
             is AddExpensesScreenAction.OnAmountUpdate -> state.onAmountUpdate(action)
             is AddExpensesScreenAction.OnChipSelected -> state.onChipSelected(action)
             is AddExpensesScreenAction.OnSaved -> state.onExpenseSaved()
+            is AddExpensesScreenAction.OnExpenseFetch -> state.onExpenseFetch(action)
+            else -> state
         }
 }
 
@@ -29,4 +32,12 @@ sealed interface AddExpensesScreenAction {
     ) : AddExpensesScreenAction
 
     data object OnSaved : AddExpensesScreenAction
+
+    data object OnGetExpense : AddExpensesScreenAction
+
+    data class OnExpenseFetch(
+        val expensesRoomModel: ExpensesRoomModel
+    ) : AddExpensesScreenAction
+
+    data object OnNothing : AddExpensesScreenAction
 }

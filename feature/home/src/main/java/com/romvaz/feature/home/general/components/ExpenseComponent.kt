@@ -30,6 +30,7 @@ import com.core.ui.utils.getExpenseDate
 @Composable
 fun ExpenseComponent(
     expense: ExpensesRoomModel,
+    navigateToEdit: (Int) -> Unit,
     onDelete: (ExpensesRoomModel) -> Unit
 ) {
     Box(
@@ -46,7 +47,9 @@ fun ExpenseComponent(
                 shape = RoundedCornerShape(Spacings.four)
             )
             .combinedClickable(
-                onClick = {},
+                onClick = {
+                    navigateToEdit(expense.id)
+                },
                 onLongClick = { onDelete(expense) }
             )
     ) {

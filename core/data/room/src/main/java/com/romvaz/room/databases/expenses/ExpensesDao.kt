@@ -18,4 +18,7 @@ interface ExpensesDao {
 
     @Query("SELECT * FROM expensesroommodel ORDER BY id ASC")
     fun getTestSortedById(): Flow<List<ExpensesRoomModel>>
+
+    @Query("SELECT * FROM expensesroommodel WHERE id = :expenseId LIMIT 1")
+    suspend fun getExpenseById(expenseId: Int): ExpensesRoomModel?
 }
