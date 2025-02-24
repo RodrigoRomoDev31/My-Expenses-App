@@ -19,3 +19,16 @@ to manage the dependencies and versions.
 
 The definition of dependencies can be find at `gradle/libs.versions.toml`, and new dependencies
 should always be added in the file
+
+# Uses cases
+
+This app allows you to add, edit, and delete expenses.
+
+1. To edit, simply click on the expense you want to modify.
+2. To delete it, a long press is required.
+
+To add expenses for future months, you can modify the date field using the
+`getCurrentTimestampWithAddedMonth()` function instead of `getCurrentTimestamp()` in the
+`AddExpenseMiddleware`.
+
+![img.png](img.png)
