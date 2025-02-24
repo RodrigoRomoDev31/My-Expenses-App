@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.core.domain.model.room.ExpensesRoomModel
 import com.core.ui.theme.Spacings
-import com.core.ui.theme.TypographyExtensions.captionsBold
 import com.core.ui.theme.TypographyExtensions.extraSmall
 import com.core.ui.theme.TypographyExtensions.labels
 import com.core.ui.utils.getColorForExpenseType
@@ -54,10 +53,6 @@ fun ExpenseComponent(
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(Spacings.four)) {
-            Text(
-                text = expense.expenseType,
-                style = MaterialTheme.typography.captionsBold
-            )
 
             Row(
                 modifier = Modifier

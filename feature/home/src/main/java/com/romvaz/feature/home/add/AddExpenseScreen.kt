@@ -106,10 +106,9 @@ private fun Content(
                     withDismissAction = true
                 )
             )
+            if (id != 0)
+                navigateBack()
         }
-
-        if (id != 0)
-            navigateBack()
     }
 
     ExpensesAppScaffold(
