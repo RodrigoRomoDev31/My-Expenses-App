@@ -45,7 +45,7 @@ fun AddExpensesUiState.onChipSelected(
 }
 
 fun AddExpensesUiState.onExpenseSaved(): AddExpensesUiState {
-    val newState = updateChipFlags(this)
+    val newState = updateChipFlags(this, true)
     return newState.copy(
         amount = "",
         disclaimerShowed = true,
@@ -53,9 +53,12 @@ fun AddExpensesUiState.onExpenseSaved(): AddExpensesUiState {
     )
 }
 
-private fun updateChipFlags(state: AddExpensesUiState): AddExpensesUiState =
+private fun updateChipFlags(
+    state: AddExpensesUiState,
+    savedFlow: Boolean = false
+): AddExpensesUiState =
     state.copy(
-        entertainmentChip = false,
+        entertainmentChip = savedFlow,
         foodChip = false,
         streamingChip = false,
         stationaryChip = false,

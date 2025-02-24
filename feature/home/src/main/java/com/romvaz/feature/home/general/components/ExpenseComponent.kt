@@ -19,6 +19,7 @@ import com.core.domain.model.room.ExpensesRoomModel
 import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.extraSmall
 import com.core.ui.theme.TypographyExtensions.labels
+import com.core.ui.utils.getColorForExpenseType
 import com.core.ui.utils.getExpenseDate
 
 @Composable
@@ -35,7 +36,7 @@ fun ExpenseComponent(
             )
             .border(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.primary,
+                color = getColorForExpenseType(expense.expenseType),
                 shape = RoundedCornerShape(Spacings.four)
             )
     ) {

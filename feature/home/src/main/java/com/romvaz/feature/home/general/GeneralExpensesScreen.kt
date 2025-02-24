@@ -1,16 +1,21 @@
 package com.romvaz.feature.home.general
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -147,21 +152,33 @@ private fun Content(
 
                     VerticalSpacer(Spacings.four)
 
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        item {
-                            Text(
-                                text = stringResource(com.core.ui.R.string.expenses_tittle),
-                                modifier = Modifier.fillMaxWidth(),
-                                style = MaterialTheme.typography.h4.copy(MaterialTheme.colorScheme.onSurface),
-                                textAlign = TextAlign.Start
-                            )
-                        }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(com.core.ui.R.string.expenses_tittle),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f),
+                            style = MaterialTheme.typography.h4.copy(MaterialTheme.colorScheme.onSurface),
+                            textAlign = TextAlign.Start
+                        )
+                        Icon(
+                            imageVector = Icons.Filled.Add,
+                            contentDescription = null,
+                            tint = MaterialTheme.myExpensesAppColors.Primary100,
+                            modifier = Modifier.clickable { navigateToAdd() }
+                        )
+                    }
 
-                        item {
-                            VerticalSpacer(Spacings.four)
-                        }
+                    VerticalSpacer(Spacings.two)
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(Spacings.two)
+                    ) {
                         expensesByMonth.forEach { (_, expenses) ->
-
                             items(expenses) { expense ->
                                 ExpenseComponent(expense)
                             }

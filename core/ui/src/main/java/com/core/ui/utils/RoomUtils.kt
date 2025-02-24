@@ -7,10 +7,4 @@ enum class ExpensesTypes(val type: String) {
     Stationary("Stationary"),
     HomeLoan("Home Loan"),
     PersonalLoan("Personal Loan");
-
-    companion object {
-        private val map = entries.associateBy(ExpensesTypes::type)
-
-        fun withType(type: String) = map[type] ?: ""
-    }
 }

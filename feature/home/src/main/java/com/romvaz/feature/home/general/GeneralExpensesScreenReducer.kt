@@ -1,9 +1,9 @@
 package com.romvaz.feature.home.general
 
-import androidx.compose.ui.graphics.Color
 import co.yml.charts.ui.piechart.models.PieChartData
 import com.core.domain.model.room.ExpensesRoomModel
 import com.core.store.Reducer
+import com.core.ui.utils.getColorForExpenseType
 import com.core.ui.utils.getExpenseMonth
 
 
@@ -41,7 +41,7 @@ class GeneralExpensesScreenReducer : Reducer<GeneralExpensesUiState, GeneralExpe
                 PieChartData.Slice(
                     data.key,
                     ((data.value / total) * 100).toFloat(),
-                    Color.Cyan
+                    getColorForExpenseType(data.key)
                 )
             )
         }
