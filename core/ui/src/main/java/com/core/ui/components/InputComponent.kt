@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -28,6 +25,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.captions
+import com.core.ui.theme.TypographyExtensions.h5
 import com.core.ui.theme.isDarkTheme
 import com.core.ui.theme.myExpensesAppColors
 
@@ -79,12 +77,7 @@ fun InputComponent(
             imeAction = ImeAction.Done
         ),
         leadingIcon = {
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-
+            Text("$", style = MaterialTheme.typography.h5.copy(MaterialTheme.colorScheme.onSurface))
         }
     )
 }

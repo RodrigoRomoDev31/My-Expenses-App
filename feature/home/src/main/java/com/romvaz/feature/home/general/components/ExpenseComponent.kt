@@ -47,9 +47,7 @@ fun ExpenseComponent(
                 shape = RoundedCornerShape(Spacings.four)
             )
             .combinedClickable(
-                onClick = {
-                    navigateToEdit(expense.id)
-                },
+                onClick = { navigateToEdit(expense.id) },
                 onLongClick = { onDelete(expense) }
             )
     ) {

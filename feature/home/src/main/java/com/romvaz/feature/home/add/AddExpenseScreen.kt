@@ -48,10 +48,8 @@ import com.core.ui.components.VerticalSpacer
 import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.captionsBold
 import com.core.ui.theme.TypographyExtensions.h3
-import com.core.ui.utils.DELAY_TIME_100
 import com.core.ui.utils.ExpensesTypes
 import com.romvaz.feature.home.add.components.ExpenseTypeChipComponent
-import kotlinx.coroutines.delay
 
 @Composable
 fun AddExpenseScreen(
@@ -108,9 +106,10 @@ private fun Content(
                     withDismissAction = true
                 )
             )
-            delay(DELAY_TIME_100)
-            navigateBack()
         }
+
+        if (id != 0)
+            navigateBack()
     }
 
     ExpensesAppScaffold(
