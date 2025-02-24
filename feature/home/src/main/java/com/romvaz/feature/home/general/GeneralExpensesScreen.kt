@@ -21,7 +21,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -40,11 +44,13 @@ import com.core.ui.theme.Spacings
 import com.core.ui.theme.TypographyExtensions.h3
 import com.core.ui.theme.TypographyExtensions.h4
 import com.core.ui.theme.myExpensesAppColors
+import com.core.ui.utils.DELAY_TIME_100
 import com.romvaz.core.ui.components.ExpensesAppScaffold
 import com.romvaz.core.ui.components.ExpensesAppTransparentHeader
 import com.romvaz.feature.home.R
 import com.romvaz.feature.home.general.components.ExpenseComponent
 import com.romvaz.feature.home.general.components.NoExpensesComponent
+import kotlinx.coroutines.delay
 
 @Composable
 fun GeneralExpensesScreen(
@@ -75,13 +81,21 @@ private fun Content(
     val currentMonth = expensesByMonth.getOrNull(indexState)
     val elementBack = indexState > 0
     val elementForward = indexState < (expensesByMonth.size - 1)
+    var timePassed by remember { mutableStateOf(false) }
+
+    LaunchedEffect(currentMonth) {
+        timePassed = false
+        if (!currentMonth?.second.isNullOrEmpty()) {
+            delay(DELAY_TIME_100)
+            timePassed = true
+        }
+    }
 
 
     val donutChartConfig = PieChartConfig(
         strokeWidth = 60f,
         activeSliceAlpha = .7f,
         isAnimationEnable = true,
-        showSliceLabels = true,
         backgroundColor = MaterialTheme.colorScheme.surface,
         labelVisible = true,
         sliceLabelTextColor = MaterialTheme.colorScheme.onSurface,
@@ -157,7 +171,7 @@ private fun Content(
 
                     VerticalSpacer(Spacings.six)
 
-                    if (chatDataState.isNotEmpty())
+                    if (timePassed)
                         DonutPieChart(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.surface)
@@ -166,7 +180,7 @@ private fun Content(
                                 chatDataState,
                                 PlotType.Donut
                             ),
-                            pieChartConfig = donutChartConfig
+                            pieChartConfig = donutChartConfig,
                         )
 
                     VerticalSpacer(Spacings.four)
